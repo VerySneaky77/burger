@@ -1,21 +1,23 @@
 const connection = require("./connection.js");
 
 const orm = {
-    selectAll: function(tableInput) {
+    selectAll: function(tableInput, callback) {
         var queryString = "SELECT * FROM ??;";
         connection.query(queryString, [tableInput], function (err, result) {
             if (err) throw err;
             console.log(result);
+            callback(result);
         });
     },
-    insertOne: function(tableInput, columns, values) {
+    insertOne: function(tableInput, columns, values, callback) {
         var queryString = "INSERT INTO ?? (??) VALUES ??;";
         connection.query(queryString, [tableInput, columns, values], function (err, result) {
             if (err) throw err;
             console.log(result);
+            callback(result);
         });
     },
-    updateOne: function(tableInput, columns, values, conditions) {
+    updateOne: function(tableInput, columns, values, conditions, callback) {
         var queryString = "UPDATE ?? SET ?? WHERE ??;";
         var setString = "";
 
@@ -28,6 +30,7 @@ const orm = {
         connection.query(queryString, [tableInput, setString, conditions], function (err, result) {
             if (err) throw err;
             console.log(result);
+            callback(result);
         });
     },
 }
